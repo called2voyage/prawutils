@@ -16,12 +16,30 @@
 import re
 
 def loop_submissions(subreddit, func, limit, *args):
-     results = []
-     for submission in subreddit.new(limit=limit):
-         results.append(func(submission, *args))
-     return results
+    """Loop over submissions on a given subreddit with
+    a given limit and apply a function to each submission
+    with optional arguments, any outputs of the function are
+    returned as a list
+
+    Keyword arguments:
+    subreddit -- the subreddit to gather submissions from
+    func      -- the function to apply to each submission
+    limit     -- number of submissions to limit the retrievals
+    *args     -- optional arguments to pass to the function
+    """
+    results = []
+    for submission in subreddit.new(limit=limit):
+        results.append(func(submission, *args))
+    return results
 
 def search_title(submission, *queries):
+    """Search a submission title for given expressions
+    and return True if any found, ignore case
+
+    Keyword arguments:
+    submission -- the submission to check
+    *queries   -- the expressions to look for
+    """
     found = False
     for query in queries:
         if re.search(query, submission.title, re.IGNORECASE):
